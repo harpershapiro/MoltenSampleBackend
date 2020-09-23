@@ -44,10 +44,12 @@ app.post('/upload', function(req, res){
             return res.status(500).send(err);
         }
 
+        console.log(`uploads/${req.body.filename}`);
         res.json({file: `uploads/${req.body.filename}`});
         
-        res.send('File uploaded to ' + uploadPath);
     });
+
+
 });
 
 app.listen(PORT, function() {
@@ -78,7 +80,7 @@ moltenRoutes.route('/:id').get(function(req,res){
 //update one
 moltenRoutes.route('/update/:id').post(function(req,res){
     let id = req.params.id;
-    Submission.findbyId(id,function(err,submission){
+    Submission.findById(id,function(err,submission){
         if(!submission){
             res.status(404).send("data is not found");
         } else {
