@@ -3,12 +3,19 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const moltenRoutes = express.Router(); //maybe rename as submissionRoutes
+
+const ApiRouter = require('./routes/Api.js');
+
+//need refactor
+//const submissionRoutes = express.Router(); //maybe rename as submissionRoutes
+//const postRoutes = express.Router(); //maybe rename as submissionRoutes
+
 const fileUpload = require('./node_modules/express-fileupload/lib/index');
-const submissionModel = require('./submission.model');
+//const submissionModel = require('./models/submission.model');
 const PORT = 4000; //aka BACK_PORT in frontend 
 
-let Submission = require('./submission.model');
+let Submission = require('./models/submission.model');
+let Post = require('./models/post.model')
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,6 +30,7 @@ connection.once('open', function(){
 //app.use('/form', express.static(__dirname + '/index.html'));
 
 app.use(fileUpload());
+app.use('/molten', ApiRouter)
 
 //submission file upload
 app.post('/upload', function(req, res){
@@ -33,11 +41,12 @@ app.post('/upload', function(req, res){
     }
 
     let uploadFile = req.files.file;
+    let uploadPartialPath = req.body.filename;
     let uploadPath;
 
     console.log('req.files >>>', req.files); 
 
-    uploadPath = __dirname + '/uploads/' + uploadFile.name;
+    uploadPath = __dirname + '/uploads/' + uploadPartialPath;
 
     uploadFile.mv(uploadPath, function(err){
         if (err) {
@@ -59,7 +68,8 @@ app.listen(PORT, function() {
 //DB routes
 
 //get all
-moltenRoutes.route('/').get(function(req,res){
+/*
+submissionRoutes.route('/').get(function(req,res){
     Submission.find(function(err,submissions){
         if(err){
             console.log(err);
@@ -70,7 +80,7 @@ moltenRoutes.route('/').get(function(req,res){
 });
 
 //get one
-moltenRoutes.route('/:id').get(function(req,res){
+submissionRoutes.route('/:id').get(function(req,res){
     let id = req.params.id;
     Submission.findbyId(id,function(err,submission){
         res.json(submission);
@@ -78,13 +88,14 @@ moltenRoutes.route('/:id').get(function(req,res){
 });
 
 //update one
-moltenRoutes.route('/update/:id').post(function(req,res){
+submissionRoutes.route('/update/:id').post(function(req,res){
     let id = req.params.id;
     Submission.findById(id,function(err,submission){
         if(!submission){
             res.status(404).send("data is not found");
         } else {
-            submission.submission_url = req.body.submission_url;
+            submission.submission_pack_url = req.body.submission_pack_url;
+            submission.submission_img_url = req.body.submission_img_url;
             submission.submission_title = req.body.submission_title; 
             submission.submission_user = req.body.submission_user;
             submission.submission_date = req.body.submission_date;
@@ -100,8 +111,20 @@ moltenRoutes.route('/update/:id').post(function(req,res){
     });
 });
 
+//delete
+submissionRoutes.route('/delete/:id').delete(function(req,res){
+    let id = req.params.id;
+    Submission.findByIdAndDelete(id,function(err,submission){
+        if(!submission){
+            res.status(404).send('data is not found');
+        } else {
+            res.json('Submission deleted.');
+        }
+    });
+});
 
-moltenRoutes.route('/add').post(function(req,res){
+
+submissionRoutes.route('/add').post(function(req,res){
     let submission = new Submission(req.body);
 
     submission.save()
@@ -113,7 +136,32 @@ moltenRoutes.route('/add').post(function(req,res){
         });
 });
 
-app.use('/molten', moltenRoutes);
+//posts
+postRoutes.route('/add').post(function(req,res){
+    let post = new Post(req.body);
+
+    post.save()
+        .then(post => {
+            res.status(200).json({'post': 'Post added successfully'});
+        })
+        .catch(err => {
+            res.status(400).send('Adding new post failed');
+        });
+});
+
+postRoutes.route('/').get(function(req,res){
+    Post.find(function(err,posts){
+        if(err){
+            console.log(err);
+        } else {
+            res.json(posts);
+        }
+    });
+});
+
+app.use('/molten/submissions', submissionRoutes);
+app.use('/molten/posts', postRoutes)
+*/
 
 
 
