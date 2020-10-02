@@ -6,12 +6,18 @@ let User = new mongoose.Schema({
         type: String
     },
     user_pass: {
-        type: String
+        type: String,
+        select: false
     },
-    user_role: {
-        
+    user_roles: {
+        type: [],
+        default: ['user']
     }
 
 });
+
+User.methods.findByUsername = (name, cb) => {
+    return this.model('User').find({ username: name }, cb);
+}
 
 module.exports = mongoose.model('User', User);
