@@ -69,12 +69,20 @@ app.listen(PORT, function() {
 app.get('/fetchImage/:file', (req, res) => {
     let file = req.params.file;
     let fileLocation = require('path').join(`${uploadsDir}/images/`, file);
-    console.log(`fetch image route. filelocation: ${fileLocation}`)
+    console.log(`fetch image. filelocation: ${fileLocation}`)
 
     //res.send({image: fileLocation});
     res.sendFile(`${fileLocation}`)
 })
 
+
+app.get('/downloadPack/:file',(req,res)=>{
+    let file = req.params.file;
+    let fileLocation = require('path').join(`${uploadsDir}/packs/`, file);
+    console.log(`download pack. filelocation: ${fileLocation}`);
+
+    res.sendFile(`${fileLocation}`);
+})
 
 //app.get('/', function(req, res){
 //     res.sendFile(__dirname+'/index.html');

@@ -28,7 +28,7 @@ router.post('/sign-up', (req,res) => {
                     .then(hashPass =>  new User({user_name: username, user_pass: hashPass}).save())
                     .then(newUser => {
                         newUser = newUser.toObject();
-                        delete newUser['password'];
+                        delete newUser['user_pass'];
 
                         //sign token
                         const token = jwt.sign({
@@ -82,13 +82,36 @@ router.post('/sign-in', (req,res) => {
                                 token,
                                 ...user
                             }
+                        
                         });
+                        console.log(`Signed in ${username}`);
                     })
                     .catch(e => res.send(500).json({error: 'There was an error.'}));
         })
         .catch(e => res.send(500).json({error: 'There was an error.'}));
 
 });
+
+//only updates username and/or roles
+router.post('/updateinfo/:username', (req,res)=>{
+    let username = req.params.username;
+    User.findOne({user_name: username})
+        .then(user=>{
+            if(!user){
+                res.status(404).send("user not found");
+            } else {
+                user.user_name=req.body.user_name;
+                user.user_roles=req.body.user_roles;
+
+                user.save().then(user=>{
+                    res.json("User updated.");
+                })
+                .catch(e=>{
+                    res.status(400).send("Update not possible.");
+                });
+            }
+        })
+    });
 
 router.get('/', (req,res) => {
     User.find((err, users)=>{

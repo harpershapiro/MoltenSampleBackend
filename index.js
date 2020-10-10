@@ -1,4 +1,8 @@
-<html>
+//var download= require("./download.js")//import download from ('./download.js');
+
+//download().then(console.log("downloaded"))
+
+{/* <html>
 	<body>
 		<form ref='uploadForm' 
 			id='uploadForm' 
@@ -11,4 +15,4 @@
 
 		<img src="/images/daffycolorado.JPG" />
 	</body>
-</html>
+</html> */}
