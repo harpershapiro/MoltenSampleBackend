@@ -26,8 +26,8 @@ connection.once('open', function(){
     console.log("MongoDB connection established successfully.");
 })
 
-var uploadsDir = require('path').join(__dirname,'/uploads'); 
-app.use(express.static(uploadsDir));
+// var uploadsDir = require('path').join(__dirname,'/uploads'); 
+// app.use(express.static(uploadsDir));
 
 app.use(fileUpload());
 app.use('/molten', ApiRouter)
@@ -66,23 +66,23 @@ app.listen(PORT, function() {
 });
 
 
-app.get('/fetchImage/:file', (req, res) => {
-    let file = req.params.file;
-    let fileLocation = require('path').join(`${uploadsDir}/images/`, file);
-    console.log(`fetch image. filelocation: ${fileLocation}`)
+// app.get('/fetchImage/:file', (req, res) => {
+//     let file = req.params.file;
+//     let fileLocation = require('path').join(`${uploadsDir}/images/`, file);
+//     console.log(`fetch image. filelocation: ${fileLocation}`)
 
-    //res.send({image: fileLocation});
-    res.sendFile(`${fileLocation}`)
-})
+//     //res.send({image: fileLocation});
+//     res.sendFile(`${fileLocation}`)
+// })
 
 
-app.get('/downloadPack/:file',(req,res)=>{
-    let file = req.params.file;
-    let fileLocation = require('path').join(`${uploadsDir}/packs/`, file);
-    console.log(`download pack. filelocation: ${fileLocation}`);
+// app.get('/downloadPack/:file',(req,res)=>{
+//     let file = req.params.file;
+//     let fileLocation = require('path').join(`${uploadsDir}/packs/`, file);
+//     console.log(`download pack. filelocation: ${fileLocation}`);
 
-    res.sendFile(`${fileLocation}`);
-})
+//     res.sendFile(`${fileLocation}`);
+// })
 
 //app.get('/', function(req, res){
 //     res.sendFile(__dirname+'/index.html');

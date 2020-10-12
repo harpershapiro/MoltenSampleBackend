@@ -2,10 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Post = new mongoose.Schema({
-    post_pack_url: {
+    post_url: {
         type: String
     },
-    post_img_url: {
+    // post_img_url: {
+    //     type: String
+    // },
+    img_ext:{
+        type: String
+    },
+    pack_ext:{
         type: String
     },
     post_date: {

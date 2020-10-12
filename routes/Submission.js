@@ -28,8 +28,10 @@ router.route('/update/:id').post(function(req,res){
         if(!submission){
             res.status(404).send("data is not found");
         } else {
-            submission.submission_pack_url = req.body.submission_pack_url;
-            submission.submission_img_url = req.body.submission_img_url;
+            submission.submission_url = req.body.submission_url;
+            submission.img_ext = req.body.img_ext;
+            submission.pack_ext = req.body.pack_ext;
+            //submission.submission_img_url = req.body.submission_img_url;
             submission.submission_title = req.body.submission_title; 
             submission.submission_user = req.body.submission_user;
             submission.submission_date = req.body.submission_date;
