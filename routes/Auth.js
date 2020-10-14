@@ -1,10 +1,12 @@
+require('dotenv/config');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {SECRET_KEY} = require('../config');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const User = require('../models/user.model');
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 router.use(bodyParser.json())
 
@@ -50,6 +52,7 @@ router.post('/sign-up', (req,res) => {
 })
 
 router.post('/sign-in', (req,res) => {
+    console.log(SECRET_KEY);
     const username = req.body.username;
     const password = req.body.password;
 
