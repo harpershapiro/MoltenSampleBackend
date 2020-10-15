@@ -1,8 +1,13 @@
 .env
 
 /build
-uploads/images/*
-uploads/packs/*
+uploads/images/*.png
+uploads/images/*.jpg
+uploads/images/*.JPEG
+uploads/images/*.JPG
+uploads/images/*.PNG
+uploads/packs/*.mp3
+uploads/packs/*.m4a
 data
 config.js
 
