@@ -17,10 +17,15 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //DB connection
-mongoose.connect(MONGO_URI, {useNewUrlParser: true});
-const connection = mongoose.connection;
-connection.once('open', function(){
-    console.log("MongoDB connection established successfully.");
+mongoose.connect(MONGO_URI, {useNewUrlParser: true})
+.then(()=>{
+    const connection = mongoose.connection;
+    connection.once('open', function(){
+        console.log("MongoDB connection established successfully.");
+        })
+    }
+).catch((e)=> {
+    console.log("Could not connect to MongoDB.")
 })
 
 
