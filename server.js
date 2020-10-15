@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const ApiRouter = require('./routes/Api.js');
 const MONGO_URI = process.env.MONGO_URI;
+console.log(MONGO_URI);
 const PORT = process.env.PORT; //aka BACK_PORT in frontend 
 
 
