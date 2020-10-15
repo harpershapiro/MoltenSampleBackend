@@ -4,14 +4,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const fileUpload = require('./node_modules/express-fileupload/lib/index');
+
 
 const ApiRouter = require('./routes/Api.js');
 const MONGO_URI = process.env.MONGO_URI;
 console.log(MONGO_URI);
 const PORT = process.env.PORT; //aka BACK_PORT in frontend 
 
-
-const fileUpload = require('./node_modules/express-fileupload/lib/index');
+app.use(fileUpload());
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,7 +30,6 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true})
 })
 
 
-app.use(fileUpload());
 app.use('/molten', ApiRouter)
 
 

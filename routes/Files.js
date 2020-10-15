@@ -4,6 +4,8 @@ const router = express.Router();
 var uploadsDir = require('path').join(__dirname,'../uploads'); 
 router.use(express.static(uploadsDir));
 
+
+
 router.post('/upload', function(req, res){
     
     if(!req.files||Object.keys(req.files).length===0){
@@ -17,7 +19,8 @@ router.post('/upload', function(req, res){
 
     console.log('req.files >>>', req.files); 
 
-    uploadPath = __dirname + '/uploads/' + uploadPartialPath;
+    uploadPath = __dirname + '/../uploads/' + uploadPartialPath;
+    console.log(uploadPath)
 
     uploadFile.mv(uploadPath, function(err){
         if (err) {
