@@ -27,6 +27,7 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true})
     }
 ).catch((e)=> {
     console.log("Could not connect to MongoDB.")
+    console.log(e)
 })
 
 
