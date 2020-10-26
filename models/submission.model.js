@@ -25,6 +25,9 @@ let Submission = new mongoose.Schema({
     },
     submission_desc: {
         type: String
+    },
+    submission_size: {
+        type: Number
     }
 });
 

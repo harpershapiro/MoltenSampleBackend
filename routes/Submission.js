@@ -36,6 +36,7 @@ router.route('/update/:id').post(function(req,res){
             submission.submission_user = req.body.submission_user;
             submission.submission_date = req.body.submission_date;
             submission.submission_desc = req.body.submission_desc;
+            submission.submission_size = req.body.submission_size;
 
             submission.save().then(submission => {
                 res.json('Submission updated');

@@ -1,3 +1,4 @@
+const { pseudoRandomBytes } = require('crypto');
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/post.model');
@@ -34,6 +35,7 @@ router.route('/update/:id').post(function(req,res){
             post.post_submitter = req.body.post_submitter;
             post.post_accepter = req.body.post_accepter;
             post.post_desc = req.body.post_desc;
+            post.post_size = req.body.post_size;
 
             post.save().then(post => {
                 res.json('Post updated');

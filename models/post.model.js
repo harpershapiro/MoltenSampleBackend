@@ -29,6 +29,9 @@ let Post = new mongoose.Schema({
     post_desc: {
         type: String
     },
+    post_size: {
+        type: Number
+    }
 
 });
 

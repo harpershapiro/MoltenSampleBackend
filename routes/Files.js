@@ -1,8 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const path = require('path')
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  });
 
 var uploadsDir = require('path').join(__dirname,'../uploads'); 
 router.use(express.static(uploadsDir));
+
+function uploadLocal(){
+
+}
+
+function uploadRemote(){
+
+}
 
 
 
@@ -14,6 +29,7 @@ router.post('/upload', function(req, res){
     }
 
     let uploadFile = req.files.file;
+    let fileSize = req.files.file.size;
     let uploadPartialPath = req.body.filename;
     let uploadPath;
 
@@ -28,7 +44,7 @@ router.post('/upload', function(req, res){
         }
 
         console.log(`uploads/${req.body.filename}`);
-        res.json({file: `uploads/${req.body.filename}`});
+        res.json({file: `uploads/${req.body.filename}`, size: `${fileSize}`});
         
     });
 
@@ -37,7 +53,7 @@ router.post('/upload', function(req, res){
 
 router.route('/fetchImage/:file').get((req, res) => {
     let file = req.params.file;
-    let fileLocation = require('path').join(`${uploadsDir}/images/`, file);
+    let fileLocation = path.join(`${uploadsDir}/images/`, file);
     console.log(`fetch image. filelocation: ${fileLocation}`)
 
     //res.send({image: fileLocation});
@@ -47,10 +63,28 @@ router.route('/fetchImage/:file').get((req, res) => {
 
 router.get('/downloadPack/:file',(req,res)=>{
     let file = req.params.file;
-    let fileLocation = require('path').join(`${uploadsDir}/packs/`, file);
+    let fileLocation = path.join(`${uploadsDir}/packs/`, file);
     console.log(`download pack. filelocation: ${fileLocation}`);
 
     res.sendFile(`${fileLocation}`);
 })
 
-module.exports = router;
+router.delete('/deleteImage/:file', (req, res) => {
+    let file = req.params.file;
+    let fileLocation = path.join(`${uploadsDir}/images/`, file);
+    console.log("deleting " + fileLocation)
+    fs.unlink(fileLocation, ()=> res.json('Image deleted.'));
+
+
+})
+
+router.delete('/deletePack/:file', (req, res) => {
+    let file = req.params.file;
+    let fileLocation = path.join(`${uploadsDir}/packs/`, file);
+    console.log("deleting " + fileLocation)
+    fs.unlink(fileLocation, ()=> res.json('Pack deleted.'));
+
+
+})
+
+module.exports = router; 
