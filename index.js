@@ -2,7 +2,8 @@
 
 //download().then(console.log("downloaded"))
 
-{/* <html>
+{
+  /* <html>
 	<body>
 		<form ref='uploadForm' 
 			id='uploadForm' 
@@ -15,4 +16,5 @@
 
 		<img src="/images/daffycolorado.JPG" />
 	</body>
-</html> */}
+</html> */
+}
